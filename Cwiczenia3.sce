@@ -41,5 +41,35 @@ endfunction
 
 // 6.
 tablica = zeros(n+1, n+1)
-tablica(:,1) = yw //6.c
+tablica(:,1) = yw // 6.c
+
+
+// 7.
+function y=fun(k, i, xw) // podać i o 1 większe
+    if k == 1 then
+        y = (f(xw(i+1)) - f(xw(i))) / (xw(i+1) - xw(i))
+    else
+        y = (fun(k-1, i+1, xw) - fun(k-1, i, xw)) / (xw(i+k) - xw(i))  
+    end
+endfunction
+
+tablica(1:n,2) = fun(1, n, xw)
 disp(tablica)
+
+for k=1:n+1
+    for i=1:n+1-k
+        tablica(i,k+1) = fun(k, i, xw)
+    end
+end
+
+disp(tablica)
+
+
+
+
+
+
+
+
+
+
