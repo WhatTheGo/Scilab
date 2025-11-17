@@ -31,12 +31,14 @@ function y=omega(x, n, X)
 endfunction
 
 
-function y=phi(j,x,xw,n)
+function y=phi(x,xw,j)
     l = x-xw
-    l(j+1) = 1
+    m = xw(j+1)-xw
     
-    m = x
-    y=prod(lw)/prod(mw)
+    l(j+1)=1
+    m(j+1)=1
+    
+    y=prod(l)/prod(m)
     disp(y)
 endfunction
 
@@ -49,7 +51,7 @@ M=max(MW)
 err=M*abs(omega(_x,n,xw))/factorial(n+1)
 
 for i=0:n
-    Wn(i+1) = yw(i+1)*phi(i, _x, xw, n)
+    Wn(i+1) = yw(i+1)*phi(_x, xw, i)
 end
 
 disp("err = ", err)
