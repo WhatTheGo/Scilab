@@ -46,7 +46,7 @@ if h ~= -1 then
     // tablica ilorazów różnicowych
     for k = 1:n
         for i = 1:n+1-k
-            roznica_funkcji = (tab(i+1, k) - tab(i, k))
+            roznica_funkcji = tab(i+1, k) - tab(i, k)
             roznica_x = xw(i+k) - xw(i)
             tab(i,k+1) = roznica_funkcji / roznica_x
         end
@@ -61,7 +61,7 @@ else
     // tablica różnic progresywnych
     for k = 1:n
         for i = 1:n+1-k
-            tab(i,k+1) = (tab(i+1, k) - tab(i, k))
+            tab(i,k+1) = tab(i+1, k) - tab(i, k)
         end
     end 
     // wartość Wn
