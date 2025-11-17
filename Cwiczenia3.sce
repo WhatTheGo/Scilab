@@ -1,5 +1,4 @@
 clear
-clc
 
 n = 7
 xbar = %pi/2
@@ -40,30 +39,43 @@ function y=omega(x, n, X)
 endfunction
 
 // 6.
-tablica = zeros(n+1, n+1)
-tablica(:,1) = yw // 6.c
+tab = zeros(n+1, n+1)
+tab(:,1) = yw // 6.c
 
-
-// 7.
-function y=fun(k, i, xw) // podać i o 1 większe
-    if k == 1 then
-        y = (f(xw(i+1)) - f(xw(i))) / (xw(i+1) - xw(i))
-    else
-        y = (fun(k-1, i+1, xw) - fun(k-1, i, xw)) / (xw(i+k) - xw(i))  
+if h ~= -1 then
+    // tablica ilorazów różnicowych
+    for k = 1:n
+        for i = 1:n+1-k
+            roznica_funkcji = (tab(i+1, k) - tab(i, k))
+            roznica_x = xw(i+k) - xw(i)
+            tab(i,k+1) = roznica_funkcji / roznica_x
+        end
+    end 
+    // wartość Wn
+    s = f(xw(1))
+    for i=2:n+1
+        s = s + (tab(1,i)) * omega(xbar, i-1, xw)
     end
-endfunction
-
-tablica(1:n,2) = fun(1, n, xw)
-disp(tablica)
-
-for k=1:n+1
-    for i=1:n+1-k
-        tablica(i,k+1) = fun(k, i, xw)
+    Wn = s
+else
+    // tablica różnic progresywnych
+    for k = 1:n
+        for i = 1:n+1-k
+            tab(i,k+1) = (tab(i+1, k) - tab(i, k))
+        end
+    end 
+    // wartość Wn
+    s = f(xw(1))
+    for i=2:n+1
+        licznik = tab(1,i) * omega(xbar, i-1, xw)
+        mianownik = factorial(i-1) * h^(i-1)
+        s = s + licznik / mianownik 
     end
+    Wn = s
 end
-
-disp(tablica)
-
+   
+disp(tab)
+disp("Wn = ", Wn)
 
 
 
