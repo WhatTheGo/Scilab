@@ -1,4 +1,6 @@
 clear
+clc
+
 
 n = 7
 xbar = %pi/2
@@ -54,7 +56,7 @@ if h ~= -1 then
     // wartość Wn
     s = f(xw(1))
     for i=2:n+1
-        s = s + (tab(1,i)) * omega(xbar, i-1, xw)
+        s = s + (tab(1,i)) * omega(xbar, i-2, xw)
     end
     Wn = s
 else
@@ -67,7 +69,7 @@ else
     // wartość Wn
     s = f(xw(1))
     for i=2:n+1
-        licznik = tab(1,i) * omega(xbar, i-1, xw)
+        licznik = tab(1,i) * omega(xbar, i-2, xw)
         mianownik = factorial(i-1) * h^(i-1)
         s = s + licznik / mianownik 
     end
