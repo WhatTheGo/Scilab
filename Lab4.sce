@@ -51,11 +51,9 @@ wi = 1
 
 while wi <= n
     if warunekPolowienia(a, b) then // sprawdz warunek metody połowienia
-        //tutaj założenia
         if warunekFalsi(a, b, h) then // sprawdz warunek metody falsi
-            
-            while wi <= n
-                //metoda falsi
+            //metoda falsi
+            while wi <= n 
                 if err < czyPrzyblizenie then
                     kodWyjscia = 2
                     brak
@@ -63,16 +61,21 @@ while wi <= n
                 
             end
             
-        else 
-            //metoda połowienia
-            
+        else // metoda połowienia 
+            xbar = (a + b) / 2
+            if warunekPolowienia(a, xbar) then
+                b = xbar
+            else a = xbar
+            end
+            // TUTAJ!
+
         end
         
     else 
         kodWyjscia = 3 // żaden warunek nie spełniony
         break
     end
-    wi = wi + 1
+    wi = wi + 1 // czy to nie powinno być wyżej tam gdzie "TUTAJ!" i dodać pętle wtedy???
 end
 
 
