@@ -44,19 +44,33 @@ function y=warunekFalsi(a, b, h)
     y = 0
 endfunction
 
-
 kodWyjscia = -1
 wi = 1
 
 
-while wi <= n
-    if warunekPolowienia(a, b) then // sprawdz warunek metody połowienia
-        if warunekFalsi(a, b, h) then // sprawdz warunek metody falsi
+if warunekPolowienia(a, b) then
+    while wi <= n 
+        if warunekFalsi(a, b, h) then
             //metoda falsi
-            while wi <= n 
+            if fp(a)*fpp(a) < 0 then
+                c = a
+                x1 = b
+            else
+                c = b
+                x1 = a
+            end
+            xw(1) = x1
+            i=2
+            while wi <= n
+                mian = f(xw(i-1)) * (c - xw(i-1))
+                licz = f(c) - mian
+                xw(i) = xw(i-1) - (mian / licz)
+                wi = wi + 1
+                
                 if err < czyPrzyblizenie then
-                    kodWyjscia = 2
-                    brak
+                    xbar = xw(i)
+                    kodWyjscia = 2 // obliczono za pomoca metody falsi
+                    break
                 end
                 
             end
@@ -67,15 +81,13 @@ while wi <= n
                 b = xbar
             else a = xbar
             end
-            // TUTAJ!
-
+            wi = wi + 1
         end
-        
-    else 
-        kodWyjscia = 3 // żaden warunek nie spełniony
-        break
     end
-    wi = wi + 1 // czy to nie powinno być wyżej tam gdzie "TUTAJ!" i dodać pętle wtedy???
+
+else 
+    kodWyjscia = 3 // żaden warunek nie spełniony
+    break
 end
 
 
