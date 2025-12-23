@@ -3,7 +3,9 @@ clear
 
 n = 8
 xw = [-1.1; -0.83; -0.57; -0.28; -0.02; 0.16; 0.47; 0.95; 1.23]
-m = 0
+m = 1
+lp = 100
+punkty = linspace(xw(1) - 0.1, xw(n+1) + 0.1, lp)
 
 function y=f(x)
     y = exp(sin(x))
@@ -40,21 +42,32 @@ if m>=0 && m<=3 then
     end
 end
  
-
+ 
 select m
 case 0
-    a0 = pw(1)/gw(1)
+    a0 = p(1)/g(1)
+    F = a0
 case 1
-    l0 = -gw(3)*pw(1) + gw(2)*pw(2)
-    l1 = gw(2)*pw(1) - gw(1)pw(2)
-    m = gw(2)^2 - gw(1)*gw(3)
+    l0 = -g(3)*p(1) + g(2)*p(2)
+    l1 = g(2)*p(1) - g(1)*p(2)
+    m = g(2)^2 - g(1)*g(3)
     
-    a0 = l1/m1
+    a0 = l0/m
     a1 = l1/m
+    F = a0 + a1*punkty
 case 2
-    m = gw(3)^3 + gw(1)*gw(4)^2 + gw(2)^2 * gw(5) - gw(3)*(2*gw(2)*gw(4) + gw(1)*gw(5))
+    m = g(3)^3 + g(1)*g(4)^2 + g(2)^2 * g(5) - g(3)*(2*g(2)*g(4) + g(1)*g(5))
     
-    //l0 = gw()pw()
+    l0 = g(4)^2*p(1) - g(3)*g(5)*p(1) + g(2)*g(5)*p(2) + g(3)^2*p(3) - g(4)*(g(3)*p(2) + g(2)*p(3))
+    l1 = g(2)*g(5)*p(1) + g(3)^2*p(2) - g(3)*(g(4)*p(1) + g(2)*p(3)) + g(1)*(-g(5)*p(2) + g(4)*p(3))
+    l2 = g(3)^2*p(1) - g(2)*g(4)*p(1) + g(1)*g(4)*p(2) + g(2)^2*p(3) - g(3)*(g(2)*p(2) + g(1)*p(3))
+    
+    a0 = l0/m
+    a1 = l1/m
+    a2 = l2/m
+    F = a0 + a1*punkty +a2*punkty^2
 else
     disp("Nieprawidłowe m")
 end
+
+plot(punkty, F)
