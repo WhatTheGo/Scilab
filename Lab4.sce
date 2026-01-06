@@ -2,13 +2,14 @@ clc
 clear
 
 a = 0.5
-b = 2
+b = -2
 r = 4
 n = 50
 h = 0.001
+wi = 0
 
 function y=f(x)
-    y = (x^2 - 3) * sin(x)
+    y = (abs(x^2) - 3)*sin(abs(x))
 endfunction
 
 function y=fp(x, h)
@@ -25,8 +26,9 @@ function y=warunekPolowienia(a, b)
     warunek = f(a) * f(b)
     if warunek < 0 then
         y = 1
+    else
+        y = 0
     end
-    y = 0
 endfunction
 
 function y=warunekFalsi(a, b, h)
@@ -40,16 +42,15 @@ function y=warunekFalsi(a, b, h)
     
     if warunek1 > 0 && warunek2 > 0 then
         y = 1
+    else
+        y = 0
     end
-    y = 0
 endfunction
-
-kodWyjscia = -1
-wi = 1
 
 
 if warunekPolowienia(a, b) then
-    while wi <= n 
+    while wi < n 
+        wi = wi + 1
         if warunekFalsi(a, b, h) then
             //metoda falsi
             if fp(a)*fpp(a) < 0 then
@@ -59,19 +60,19 @@ if warunekPolowienia(a, b) then
                 c = b
                 x1 = a
             end
-            xw(1) = x1
-            i=2
-            while wi <= n
-                mian = f(xw(i-1)) * (c - xw(i-1))
+            x_prev = x1
+            while wi < n
+                mian = f(x_prev) * (c - x_prev) // xw(i-1) = x_prev
                 licz = f(c) - mian
-                xw(i) = xw(i-1) - (mian / licz)
-                wi = wi + 1
-                
-                if err < czyPrzyblizenie then
-                    xbar = xw(i)
-                    kodWyjscia = 2 // obliczono za pomoca metody falsi
-                    break
+                x_new = x_prev - (mian / licz)
+                if abs(x_new - x_prev) < 10^(-r) then
+                    xbar = x_new
+                    disp("kod wyjscia 2 -> udało się przybliżyć funkcje liniową")
+                    disp("xbar = ", xbar)
+                    return
                 end
+                wi = wi + 1
+                x_prev = x_new
                 
             end
             
@@ -81,28 +82,15 @@ if warunekPolowienia(a, b) then
                 b = xbar
             else a = xbar
             end
-            wi = wi + 1
         end
     end
 
 else 
-    kodWyjscia = 3 // żaden warunek nie spełniony
-    break
+    disp("kod wyjscia 3 -> nie spełniono żadnego warunku")
 end
 
 
 if wi == n then
-    kodWyjscia = 1
+    disp("kod wyjścia 1 -> przekroczono liczbe iteracji")
 end
 
-if kodWyjscia == 1 then
-    disp("kod wyjścia 1 -> przekroczono liczbe iteracji")
-    
-elseif kodWyjscia == 2 then
-    disp("kod wyjscia 2 -> udało się przybliżyć funkcje liniową")
-    
-elseif kodWyjscia == 3 then
-    disp("kod wyjscia 3 -> nie spełniono żadnego warunku")
-    
-else disp("kod wyjscia -1")
-end
