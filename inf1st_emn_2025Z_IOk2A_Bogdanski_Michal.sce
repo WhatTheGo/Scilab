@@ -1,3 +1,4 @@
+// Bogdański Michał, Informatyka ogólna, kolokwium nr 2 - wersja A
 clc
 clear
 
